@@ -2,6 +2,7 @@ import { Card, Button, Tooltip } from 'antd'
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 import ModalAddCard from './components/ModalAddCard'
+import CardItem from './components/CardItem'
 
 function App() {
 
@@ -55,18 +56,23 @@ function App() {
           </>
         }
         style={{
-          width: 300
+          width: 300,
         }}
         className= 'cardList'
         >
+          <CardItem />
         </Card>
         </div>
       </main>
+      
+      
+
       <ModalAddCard 
         isOpenModalAddCard={isOpenModalAddCard} 
         handleAddTodo={handleAddTodo} 
         handleCloseModalAddCard={handleCloseModalAddCard} 
       />
+      
 
       
     </>
