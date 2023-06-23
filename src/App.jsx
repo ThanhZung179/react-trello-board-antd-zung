@@ -32,11 +32,10 @@ function App() {
   return (
     <>
       <div className="header_container">
-        <div className="header_logo" >
-        </div>
+        <div className="header_logo"></div>
         <div className="header_right">
           <div className="header_avatar">
-            <img src='https://th.bing.com/th/id/OIP.JcN63wd82WxNh9duWs6PXwHaLH?pid=ImgDet&rs=1' />
+            <img src="https://th.bing.com/th/id/OIP.JcN63wd82WxNh9duWs6PXwHaLH?pid=ImgDet&rs=1" />
           </div>
         </div>
       </div>
@@ -48,11 +47,11 @@ function App() {
             extra={
               <>
                 <div style={{ display: 'flex', gap: '10px' }}>
-                  <Tooltip placement="top" title='Add a card'>
-                    <Button shape='circle' icon={<PlusOutlined />} onClick={handleOpenModalAddCard}></Button>
+                  <Tooltip placement="top" title="Add a card">
+                    <Button shape="circle" icon={<PlusOutlined />} onClick={handleOpenModalAddCard}></Button>
                   </Tooltip>
-                  <Tooltip placement="top" title='Delete this list'>
-                    <Button shape='circle' icon={<DeleteOutlined />}></Button>
+                  <Tooltip placement="top" title="Delete this list">
+                    <Button shape="circle" icon={<DeleteOutlined />} />
                   </Tooltip>
                 </div>
               </>
@@ -60,9 +59,9 @@ function App() {
             style={{
               width: 300,
             }}
-            className='cardList'
+            className="cardList"
           >
-             {todos.map(todo => (
+            {todos.map((todo) => (
               <CardItem key={todo.id} todo={todo} />
             ))}
           </Card>
@@ -71,11 +70,11 @@ function App() {
             extra={
               <>
                 <div style={{ display: 'flex', gap: '10px' }}>
-                  <Tooltip placement="top" title='Add a card'>
-                    <Button shape='circle' icon={<PlusOutlined />} onClick={handleOpenModalAddCard}></Button>
+                  <Tooltip placement="top" title="Add a card">
+                    <Button shape="circle" icon={<PlusOutlined />} onClick={handleOpenModalAddCard}></Button>
                   </Tooltip>
-                  <Tooltip placement="top" title='Delete this list'>
-                    <Button shape='circle' icon={<DeleteOutlined />}></Button>
+                  <Tooltip placement="top" title="Delete this list">
+                    <Button shape="circle" icon={<DeleteOutlined />} />
                   </Tooltip>
                 </div>
               </>
@@ -83,15 +82,15 @@ function App() {
             style={{
               width: 300,
             }}
-            className='cardList'
+            className="cardList"
           >
-             {todos.map(todo => (
+            {todos.map((todo) => (
               <CardItem key={todo.id} todo={todo} />
             ))}
-          </Card> 
-          
+          </Card>
         </div>
       </main>
+
       <ModalAddCard
         isOpenModalAddCard={isOpenModalAddCard}
         handleAddTodo={handleAddTodo}

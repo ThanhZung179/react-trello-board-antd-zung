@@ -90,6 +90,8 @@ main {
   width: 100%;
   height: calc(100vh - 55px);
   position: relative;
+  display: flex;
+  gap: 1px
 }
 
 .content {
