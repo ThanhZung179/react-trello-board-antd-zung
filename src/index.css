@@ -117,4 +117,25 @@ main {
   margin-bottom: 0;
 }
 
+.cardList .ant-card-body {
+    padding: 12px
+}
 
+.cardItem + .cardItem {
+  margin-top: 12px;
+}
+
+.cardItem .ant-card-cover img{
+  width: 100%;
+  height: 160px;
+}
+
+.avatarGroup {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
