@@ -66,6 +66,29 @@ function App() {
               <CardItem key={todo.id} todo={todo} />
             ))}
           </Card>
+          <Card
+            title="List 2"
+            extra={
+              <>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <Tooltip placement="top" title='Add a card'>
+                    <Button shape='circle' icon={<PlusOutlined />} onClick={handleOpenModalAddCard}></Button>
+                  </Tooltip>
+                  <Tooltip placement="top" title='Delete this list'>
+                    <Button shape='circle' icon={<DeleteOutlined />}></Button>
+                  </Tooltip>
+                </div>
+              </>
+            }
+            style={{
+              width: 300,
+            }}
+            className='cardList'
+          >
+             {todos.map(todo => (
+              <CardItem key={todo.id} todo={todo} />
+            ))}
+          </Card> 
           
         </div>
       </main>
