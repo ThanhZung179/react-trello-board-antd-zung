@@ -10,7 +10,7 @@ export const data = {
     'list-2': {
       id: 'list-2',
       title: 'List 2',
-      cards: ['card-2-1', 'card-2-2']
+      cards: ['card-2-1']
     }
   },
   cards: {

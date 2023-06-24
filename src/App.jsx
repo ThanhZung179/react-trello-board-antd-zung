@@ -14,9 +14,9 @@ export default function App() {
   const [todos, setTodos] = useState(data);
   const [isOpenModalAddCard, setIsOpenModalAddCard] = useState(false);
 
-  // function handleOpenModalAddCard() {
-  //   setIsOpenModalAddCard(true);
-  // }
+  function handleOpenModalAddCard() {
+    setIsOpenModalAddCard(true);
+  }
 
   function handleAddList() {}
 
@@ -105,6 +105,7 @@ export default function App() {
                     display: 'flex' 
                   }}
                   {...provided.droppableProps}
+                  className="listContainer"
                 >
                   <>
                     {todos.columns.map((listId, listIndex) => {
@@ -117,6 +118,7 @@ export default function App() {
                           title={listItem.title}
                           cards={cards}
                           listId={listItem.id}
+                          handleOpenModalAddCard={handleOpenModalAddCard}
                         />  
                       )
                     })}
