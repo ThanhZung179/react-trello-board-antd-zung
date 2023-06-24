@@ -1,17 +1,24 @@
-import { Card, Button, Tooltip } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import { Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+
+// components
 import ModalAddCard from './components/ModalAddCard';
-import CardItem from './components/CardItem';
+import TrelloList from './components/TrelloList';
+
+// mocks
+import { data } from './mocks/data'
 
 export default function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(data);
   const [isOpenModalAddCard, setIsOpenModalAddCard] = useState(false);
-  const [listCount, setListCount] = useState(2);
 
-  function handleOpenModalAddCard() {
-    setIsOpenModalAddCard(true);
-  }
+  // function handleOpenModalAddCard() {
+  //   setIsOpenModalAddCard(true);
+  // }
+
+  function handleAddList() {}
 
   function handleCloseModalAddCard() {
     setIsOpenModalAddCard(false);
@@ -25,13 +32,53 @@ export default function App() {
       member: values.member,
       status: values.status,
     };
-
     setTodos([...todos, todoItem]);
   }
 
-  function handleAddList() {
-    setListCount((prevCount) => prevCount + 1);
-  }
+
+  const onDragEnd = useCallback((data) => {
+    if(!data.destination) return;
+
+    // list
+    if(data.type === 'LIST') {
+      console.log('list', data)
+      return
+    }
+
+    // card
+    const { destination, source } = data;
+
+    // drop card same list
+    if(source.droppableId === destination.droppableId) {
+      const droppedIdStart = source.droppableId
+      const lists = todos.lists[droppedIdStart]
+      const newCards = [...lists.cards];
+      [newCards[source.index], newCards[destination.index]] = [newCards[destination.index],newCards[source.index]]
+
+      setTodos(prevState => {
+        return {
+          ...prevState,
+          lists: {
+            ...prevState.lists,
+            [droppedIdStart]: {
+              ...lists,
+              cards: newCards
+            }
+          }
+        }
+      })
+      return; 
+    }
+
+    // drop card between lists
+
+
+    // card
+
+
+
+    // the only one that is required
+  }, [todos]);
 
   return (
     <>
@@ -46,39 +93,47 @@ export default function App() {
 
       <main>
         <div className="container">
-          {Array.from({ length: listCount }, (_, index) => (
-            <Card
-              key={index}
-              title={`List ${index + 1}`}
-              extra={
-                <>
-                  <div style={{ display: 'flex', gap: '10px' }}>
-                    <Tooltip placement="top" title="Add a card">
-                      <Button shape="circle" icon={<PlusOutlined />} onClick={handleOpenModalAddCard} />
-                    </Tooltip>
-                    <Tooltip placement="top" title="Delete this list">
-                      <Button shape="circle" icon={<DeleteOutlined />} />
-                    </Tooltip>
-                  </div>
-                </>
-              }
-              style={{
-                width: 300,
-              }}
-              className="cardList"
-            >
-              {todos.map((todo) => (
-                <CardItem key={todo.id} todo={todo} />
-              ))}
-            </Card>
-          ))}
+          <DragDropContext
+            onDragEnd={onDragEnd}
+          >
+            <Droppable droppableId="droppable" type="LIST" direction='vertical'>
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  style={{ 
+                    // backgroundColor: snapshot.isDraggingOver ? 'blue' : 'grey',
+                    display: 'flex' 
+                  }}
+                  {...provided.droppableProps}
+                >
+                  <>
+                    {todos.columns.map((listId, listIndex) => {
+                      const listItem = todos.lists[listId];
+                      const cards = listItem.cards.map(cardId => todos.cards[cardId])
+                      return (
+                        <TrelloList
+                          key={listItem.id}
+                          index={listIndex}
+                          title={listItem.title}
+                          cards={cards}
+                          listId={listItem.id}
+                        />  
+                      )
+                    })}
+                  </>
+                    {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+
+            {/* <TrelloList /> */}
+          </DragDropContext>
+          
 
           <Button onClick={handleAddList} icon={<PlusOutlined />} >Add another List</Button>
 
         </div>
       </main>
-
-
 
       <ModalAddCard
         isOpenModalAddCard={isOpenModalAddCard}
@@ -88,3 +143,11 @@ export default function App() {
     </>
   );
 }
+
+/*
+[1, 2, 3, 4, 5]
+-> swap 1, 4, 3, 2, 5 -> [x, y] = [y, x]
+-> order: 1 4 2 3 5 -> findIndex -> splice -> add item
+
+
+*/
