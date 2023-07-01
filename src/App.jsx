@@ -18,7 +18,7 @@ export default function App() {
     setIsOpenModalAddCard(true);
   }
 
-  function handleAddList() {}
+  function handleAddList() { }
 
   function handleCloseModalAddCard() {
     setIsOpenModalAddCard(false);
@@ -35,50 +35,79 @@ export default function App() {
     setTodos([...todos, todoItem]);
   }
 
+  const onDragEnd = useCallback((result) => {
+    const { destination, source, draggableId, type } = result;
 
-  const onDragEnd = useCallback((data) => {
-    if(!data.destination) return;
-
-    // list
-    if(data.type === 'LIST') {
-      console.log('list', data)
-      return
+    // If the destination is null or the draggable item is dropped back into its original position, do nothing
+    if (!destination || (destination.droppableId === source.droppableId && destination.index === source.index)) {
+      return;
     }
 
-    // card
-    const { destination, source } = data;
+    // List dragging
+    if (type === 'LIST') {
+      const newListOrder = Array.from(todos.columns);
+      newListOrder.splice(source.index, 1);
+      newListOrder.splice(destination.index, 0, draggableId);
 
-    // drop card same list
-    if(source.droppableId === destination.droppableId) {
-      const droppedIdStart = source.droppableId
-      const lists = todos.lists[droppedIdStart]
-      const newCards = [...lists.cards];
-      [newCards[source.index], newCards[destination.index]] = [newCards[destination.index],newCards[source.index]]
+      setTodos((prevState) => ({
+        ...prevState,
+        columns: newListOrder,
+      }));
 
-      setTodos(prevState => {
-        return {
-          ...prevState,
-          lists: {
-            ...prevState.lists,
-            [droppedIdStart]: {
-              ...lists,
-              cards: newCards
-            }
-          }
-        }
-      })
-      return; 
+      return;
     }
 
-    // drop card between lists
+    // Card dragging
+    const startList = todos.lists[source.droppableId];
+    const endList = todos.lists[destination.droppableId];
 
+    // If the card is dropped in the same list
+    if (startList === endList) {
+      const newCardOrder = Array.from(startList.cards);
+      newCardOrder.splice(source.index, 1);
+      newCardOrder.splice(destination.index, 0, draggableId);
 
-    // card
+      const newStartList = {
+        ...startList,
+        cards: newCardOrder,
+      };
 
+      setTodos((prevState) => ({
+        ...prevState,
+        lists: {
+          ...prevState.lists,
+          [newStartList.id]: newStartList,
+        },
+      }));
+    } else {
+      // If the card is dropped in a different list
+      const startCardOrder = Array.from(startList.cards);
+      startCardOrder.splice(source.index, 1);
 
+      const newStartList = {
+        ...startList,
+        cards: startCardOrder,
+      };
 
-    // the only one that is required
+      const endCardOrder = Array.from(endList.cards);
+      endCardOrder.splice(destination.index, 0, draggableId);
+
+      const newEndList = {
+        ...endList,
+        cards: endCardOrder,
+      };
+
+      setTodos((prevState) => ({
+        ...prevState,
+        lists: {
+          ...prevState.lists,
+          [newStartList.id]: newStartList,
+          [newEndList.id]: newEndList,
+        },
+      }));
+    }
   }, [todos]);
+
 
   return (
     <>
@@ -100,9 +129,9 @@ export default function App() {
               {(provided) => (
                 <div
                   ref={provided.innerRef}
-                  style={{ 
+                  style={{
                     // backgroundColor: snapshot.isDraggingOver ? 'blue' : 'grey',
-                    display: 'flex' 
+                    display: 'flex'
                   }}
                   {...provided.droppableProps}
                   className="listContainer"
@@ -119,18 +148,18 @@ export default function App() {
                           cards={cards}
                           listId={listItem.id}
                           handleOpenModalAddCard={handleOpenModalAddCard}
-                        />  
+                        />
                       )
                     })}
                   </>
-                    {provided.placeholder}
+                  {provided.placeholder}
                 </div>
               )}
             </Droppable>
 
             {/* <TrelloList /> */}
           </DragDropContext>
-          
+
 
           <Button onClick={handleAddList} icon={<PlusOutlined />} >Add another List</Button>
 
@@ -146,10 +175,3 @@ export default function App() {
   );
 }
 
-/*
-[1, 2, 3, 4, 5]
--> swap 1, 4, 3, 2, 5 -> [x, y] = [y, x]
--> order: 1 4 2 3 5 -> findIndex -> splice -> add item
-
-
-*/
