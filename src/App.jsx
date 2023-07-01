@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
@@ -6,12 +6,12 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 // components
 import ModalAddCard from './components/ModalAddCard';
 import TrelloList from './components/TrelloList';
+import { useTodoContext } from './context/TodoContext';
 
-// mocks
-import { data } from './mocks/data'
+
 
 export default function App() {
-  const [todos, setTodos] = useState(data);
+  const { todos, handleAddTodoList, onDragEnd } = useTodoContext();
   const [isOpenModalAddCard, setIsOpenModalAddCard] = useState(false);
 
   function handleOpenModalAddCard() {
@@ -23,62 +23,6 @@ export default function App() {
   function handleCloseModalAddCard() {
     setIsOpenModalAddCard(false);
   }
-
-  function handleAddTodoList(values) {
-    const todoItem = {
-      id: Math.random(),
-      title: values.title,
-      description: values.description,
-      member: values.member,
-      status: values.status,
-    };
-    setTodos([...todos, todoItem]);
-  }
-
-
-  const onDragEnd = useCallback((data) => {
-    if(!data.destination) return;
-
-    // list
-    if(data.type === 'LIST') {
-      console.log('list', data)
-      return
-    }
-
-    // card
-    const { destination, source } = data;
-
-    // drop card same list
-    if(source.droppableId === destination.droppableId) {
-      const droppedIdStart = source.droppableId
-      const lists = todos.lists[droppedIdStart]
-      const newCards = [...lists.cards];
-      [newCards[source.index], newCards[destination.index]] = [newCards[destination.index],newCards[source.index]]
-
-      setTodos(prevState => {
-        return {
-          ...prevState,
-          lists: {
-            ...prevState.lists,
-            [droppedIdStart]: {
-              ...lists,
-              cards: newCards
-            }
-          }
-        }
-      })
-      return; 
-    }
-
-    // drop card between lists
-
-
-    // card
-
-
-
-    // the only one that is required
-  }, [todos]);
 
   return (
     <>
