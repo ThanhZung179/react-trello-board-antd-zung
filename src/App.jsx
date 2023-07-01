@@ -6,9 +6,9 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 // components
 import ModalAddCard from './components/ModalAddCard';
 import TrelloList from './components/TrelloList';
+
+// context
 import { useTodoContext } from './context/TodoContext';
-
-
 
 export default function App() {
   const { todos, handleAddTodoList, onDragEnd } = useTodoContext();
@@ -18,7 +18,7 @@ export default function App() {
     setIsOpenModalAddCard(true);
   }
 
-  function handleAddList() {}
+  function handleAddList() { }
 
   function handleCloseModalAddCard() {
     setIsOpenModalAddCard(false);
@@ -44,9 +44,9 @@ export default function App() {
               {(provided) => (
                 <div
                   ref={provided.innerRef}
-                  style={{ 
+                  style={{
                     // backgroundColor: snapshot.isDraggingOver ? 'blue' : 'grey',
-                    display: 'flex' 
+                    display: 'flex'
                   }}
                   {...provided.droppableProps}
                   className="listContainer"
@@ -63,18 +63,18 @@ export default function App() {
                           cards={cards}
                           listId={listItem.id}
                           handleOpenModalAddCard={handleOpenModalAddCard}
-                        />  
+                        />
                       )
                     })}
                   </>
-                    {provided.placeholder}
+                  {provided.placeholder}
                 </div>
               )}
             </Droppable>
 
             {/* <TrelloList /> */}
           </DragDropContext>
-          
+
 
           <Button onClick={handleAddList} icon={<PlusOutlined />} >Add another List</Button>
 
@@ -90,10 +90,3 @@ export default function App() {
   );
 }
 
-/*
-[1, 2, 3, 4, 5]
--> swap 1, 4, 3, 2, 5 -> [x, y] = [y, x]
--> order: 1 4 2 3 5 -> findIndex -> splice -> add item
-
-
-*/
