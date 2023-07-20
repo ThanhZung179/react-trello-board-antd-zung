@@ -98,6 +98,7 @@ export const TodoProvider = ({ children }) => {
       value={{
         // states
         todos,
+        setTodos,
 
         // actions
         handleAddTodoList,

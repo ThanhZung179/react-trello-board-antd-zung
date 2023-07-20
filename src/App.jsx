@@ -11,14 +11,40 @@ import TrelloList from './components/TrelloList';
 import { useTodoContext } from './context/TodoContext';
 
 export default function App() {
-  const { todos, handleAddTodoList, onDragEnd } = useTodoContext();
+  const { todos, setTodos, handleAddTodoList, onDragEnd } = useTodoContext();
   const [isOpenModalAddCard, setIsOpenModalAddCard] = useState(false);
 
   function handleOpenModalAddCard() {
     setIsOpenModalAddCard(true);
   }
 
-  function handleAddList() { }
+  function handleAddList() {
+    // Prompt the user to enter the title of the new list
+    const newListTitle = window.prompt("Enter the title of the new list:");
+
+    if (newListTitle && newListTitle.trim() !== "") {
+      // Generate a unique ID for the new list
+      const newListId = `list-${Math.random().toString(36).substr(2, 9)}`;
+
+      // Create a new list object
+      const newList = {
+        id: newListId,
+        title: newListTitle,
+        cards: [], // Initialize the new list with an empty array of cards
+      };
+
+      // Update the todos state with the new list
+      setTodos((prevState) => ({
+        ...prevState,
+        columns: [...prevState.columns, newListId], // Add the new list ID to the columns array
+        lists: {
+          ...prevState.lists,
+          [newListId]: newList, // Add the new list to the lists object with its ID as the key
+        },
+      }));
+    }
+  }
+
 
   function handleCloseModalAddCard() {
     setIsOpenModalAddCard(false);

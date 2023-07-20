@@ -46,28 +46,3 @@ export const data = {
     }
   }
 }
-
-// const todos = [
-//   { id: 1, title: 'Do homework', completed: false },
-//   { id: 2, title: 'Do homework 2', completed: false },
-// ]
-
-// const todoObj = {
-//   1: { id: 1, title: 'Do homework', completed: false },
-//   2: { id: 2, title: 'Do homework 2', completed: false },
-// }
-
-// const idFromBE = 1
-
-// // array
-// //  change item in array
-// const todoIndex = todos.findIndex(todo => todo.id === idFromBE)
-// todos[todoIndex].title = '123'
-
-// // delete item in array
-// const todoIndexA = todos.findIndex(todo => todo.id === idFromBE)
-// todos.splice(todoIndexA, 1)
-
-// // object
-// todoObj[idFromBE].title = '123'
-// delete todoObj[idFromBE]
