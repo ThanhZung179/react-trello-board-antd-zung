@@ -1,9 +1,10 @@
 import { Modal, Form, Input, Select, Space, Avatar } from 'antd';
 import { useForm } from 'antd/es/form/Form';
+import { v4 } from 'uuid';
 
 const { TextArea } = Input;
 
-function ModalAddCard({ isOpenModalAddCard, handleCloseModalAddCard, handleAddTodo }) {
+function ModalAddCard({ isOpenModalAddCard, handleCloseModalAddCard, handleAddCard, listId }) {
 
   const [form] = useForm();
 
@@ -12,10 +13,21 @@ function ModalAddCard({ isOpenModalAddCard, handleCloseModalAddCard, handleAddTo
   };
 
   const onFinish = (values) => {
+    const newCardId = v4();
+    const newCard = {
+      id: newCardId,
+      title: values.title,
+      description: values.description,
+      member: values.member,
+      value: values.status
+    };
+
+    // Call the handleAddCard function from the App component to add the new card
+    handleAddCard(listId, newCard);
+
     form.resetFields();
-    handleAddTodo(values);
     handleCloseModalAddCard();
-  };
+  }
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -77,60 +89,58 @@ function ModalAddCard({ isOpenModalAddCard, handleCloseModalAddCard, handleAddTo
               },
             ]}
           >
-              <Select
-                mode="multiple"
-                size="middle"
-                placeholder="Please select"
-                onChange={handleMemberSelectedChange}
-                style={{
-                  width: '100%',
-                }}
-                options={[
-                  {
-                    value: 'zung',
-                    label: (
-                      <>
-                        <Space direction="vertical" size={16}>
-                          <Space wrap size={16}>
-                            <Avatar src="https://img.freepik.com/free-photo/stylish-confident-businesswoman-smiling_176420-19466.jpg?w=2000" />
-                          </Space>
+            <Select
+              mode="multiple"
+              size="middle"
+              placeholder="Please select"
+              onChange={handleMemberSelectedChange}
+              style={{
+                width: '100%',
+              }}
+              options={[
+                {
+                  value: 'zung',
+                  label: (
+                    <>
+                      <Space direction="vertical" size={16}>
+                        <Space wrap size={16}>
+                          <Avatar src="https://img.freepik.com/free-photo/stylish-confident-businesswoman-smiling_176420-19466.jpg?w=2000" />
                         </Space>
-                        <span>Nguyen Thanh Zung</span>
-                      </>
-                    ),
-                  },
-                  {
-                    value: 'lucy',
-                    label: (
-                      <>
-                        <Space direction="vertical" size={16}>
-                          <Space wrap size={16}>
-                            <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxG7Yll-Mqdj3Ce_9XfWDQ3qqvNTpEX82IeQ&usqp=CAU" />
-                          </Space>
+                      </Space>
+                      <span>Nguyen Thanh Zung</span>
+                    </>
+                  ),
+                },
+                {
+                  value: 'lucy',
+                  label: (
+                    <>
+                      <Space direction="vertical" size={16}>
+                        <Space wrap size={16}>
+                          <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxG7Yll-Mqdj3Ce_9XfWDQ3qqvNTpEX82IeQ&usqp=CAU" />
                         </Space>
-                        <span>Lucy</span>
-                      </>
-                    ),
-                  },
-                  {
-                    value: 'tom',
-                    label: (
-                      <>
-                        <Space direction="vertical" size={16}>
-                          <Space wrap size={16}>
-                            <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvmI2RMfPSRXyXnYQYtF3tdjvwF4x2HnZH29Q-MjH0i3Ly-UAahLK3rq_mIEwcomCFNxk&usqp=CAU" />
-                          </Space>
+                      </Space>
+                      <span>Lucy</span>
+                    </>
+                  ),
+                },
+                {
+                  value: 'tom',
+                  label: (
+                    <>
+                      <Space direction="vertical" size={16}>
+                        <Space wrap size={16}>
+                          <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvmI2RMfPSRXyXnYQYtF3tdjvwF4x2HnZH29Q-MjH0i3Ly-UAahLK3rq_mIEwcomCFNxk&usqp=CAU" />
                         </Space>
-                        <span>Tom</span>
-                      </>
-                    ),
-                  },
-                ]}
-              />
-            
+                      </Space>
+                      <span>Tom</span>
+                    </>
+                  ),
+                },
+              ]}
+            />
+
           </Form.Item>
-
-
           <Form.Item
             name="status"
             label="Status" >
@@ -145,8 +155,6 @@ function ModalAddCard({ isOpenModalAddCard, handleCloseModalAddCard, handleAddTo
               ]}
             />
           </Form.Item>
-
-
         </Form>
       </Modal >
     </>

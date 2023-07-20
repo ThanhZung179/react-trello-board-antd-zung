@@ -6,17 +6,32 @@ import { data } from '../mocks/data'
 const TodoContext = React.createContext();
 
 export const TodoProvider = ({ children }) => {
-  const [todos, setTodos] = React.useState(data);
+  const { columns, lists, cards } = data;
+  const [todos, setTodos] = React.useState({ columns, lists, cards });
 
-  function handleAddTodoList(values) {
-    const todoItem = {
-      id: Math.random(),
-      title: values.title,
-      description: values.description,
-      member: values.member,
-      status: values.status,
-    };
-    setTodos([...todos, todoItem]);
+  console.log('data:', data)
+
+  function handleAddCard(listId, newCard) {
+    setTodos((prevState) => {
+      const updatedLists = {
+        ...prevState.lists,
+        [listId]: {
+          ...prevState.lists[listId],
+          cards: [...prevState.lists[listId].cards, newCard.id],
+        },
+      };
+
+      const updatedCards = {
+        ...prevState.cards,
+        [newCard.id]: newCard,
+      };
+
+      return {
+        ...prevState,
+        lists: updatedLists,
+        cards: updatedCards,
+      };
+    });
   }
 
   const onDragEnd = React.useCallback((result) => {
@@ -94,14 +109,14 @@ export const TodoProvider = ({ children }) => {
 
 
   return (
-    <TodoContext.Provider 
+    <TodoContext.Provider
       value={{
         // states
         todos,
         setTodos,
 
         // actions
-        handleAddTodoList,
+        handleAddCard,
         onDragEnd
       }}
     >

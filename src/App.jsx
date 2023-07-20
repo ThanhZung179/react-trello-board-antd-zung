@@ -3,15 +3,17 @@ import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
+
 // components
 import ModalAddCard from './components/ModalAddCard';
 import TrelloList from './components/TrelloList';
 
 // context
 import { useTodoContext } from './context/TodoContext';
+import { v4 } from 'uuid';
 
 export default function App() {
-  const { todos, setTodos, handleAddTodoList, onDragEnd } = useTodoContext();
+  const { todos, setTodos, handleAddCard, onDragEnd } = useTodoContext();
   const [isOpenModalAddCard, setIsOpenModalAddCard] = useState(false);
 
   function handleOpenModalAddCard() {
@@ -24,7 +26,7 @@ export default function App() {
 
     if (newListTitle && newListTitle.trim() !== "") {
       // Generate a unique ID for the new list
-      const newListId = `list-${Math.random().toString(36).substr(2, 9)}`;
+      const newListId = v4();
 
       // Create a new list object
       const newList = {
@@ -49,6 +51,7 @@ export default function App() {
   function handleCloseModalAddCard() {
     setIsOpenModalAddCard(false);
   }
+
 
   return (
     <>
@@ -80,7 +83,7 @@ export default function App() {
                   <>
                     {todos.columns.map((listId, listIndex) => {
                       const listItem = todos.lists[listId];
-                      const cards = listItem.cards.map(cardId => todos.cards[cardId])
+                      const cards = listItem.cards.map((cardId) => todos.cards[cardId]);
                       return (
                         <TrelloList
                           key={listItem.id}
@@ -88,17 +91,16 @@ export default function App() {
                           title={listItem.title}
                           cards={cards}
                           listId={listItem.id}
-                          handleOpenModalAddCard={handleOpenModalAddCard}
+                          handleOpenModalAddCard={() => handleOpenModalAddCard(listItem.id)} // Pass the listId to the handler
+                          handleAddCard={handleAddCard}
                         />
-                      )
+                      );
                     })}
                   </>
                   {provided.placeholder}
                 </div>
               )}
             </Droppable>
-
-            {/* <TrelloList /> */}
           </DragDropContext>
 
 
@@ -109,8 +111,8 @@ export default function App() {
 
       <ModalAddCard
         isOpenModalAddCard={isOpenModalAddCard}
-        handleAddTodo={handleAddTodoList}
         handleCloseModalAddCard={handleCloseModalAddCard}
+        handleAddCard={handleAddCard} // Pass the function to ModalAddCard
       />
     </>
   );

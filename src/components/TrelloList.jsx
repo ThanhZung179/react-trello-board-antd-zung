@@ -6,7 +6,8 @@ import { Draggable, Droppable } from 'react-beautiful-dnd';
 // compoents
 import CardItem from './CardItem';
 
-function TrelloList({ index, listId, title, cards, handleOpenModalAddCard }) {
+function TrelloList({ index, listId, title, cards, handleOpenModalAddCard, handleAddCard }) {
+
   return (
     <Draggable draggableId={String(listId)} index={index}>
       {(provided) => (
@@ -18,12 +19,12 @@ function TrelloList({ index, listId, title, cards, handleOpenModalAddCard }) {
         >
           <Droppable droppableId={String(listId)} type="CARD">
             {(provided) => (
-                <div
+              <div
                 ref={provided.innerRef}
                 // style={{ backgroundColor: snapshot.isDraggingOver ? 'blue' : 'grey' }}
                 {...provided.droppableProps}
               >
-               <Card
+                <Card
                   className="cardList"
                   title={title}
                   extra={
@@ -42,28 +43,28 @@ function TrelloList({ index, listId, title, cards, handleOpenModalAddCard }) {
                     width: 300,
                   }}
                 >
-                    {cards.map((card, cardIndex) => {
-                      return (
-                        <CardItem 
-                          key={card.id}
-                          card={card}
-                          index={cardIndex}
-                          listId={listId}
-                        />
-                      )
-                    })}
+                  {cards.map((card, cardIndex) => {
+                    return (
+                      <CardItem
+                        key={card.id}
+                        card={card}
+                        index={cardIndex}
+                        listId={listId}
+                      />
+                    )
+                  })}
 
-                    {provided.placeholder}
+                  {provided.placeholder}
                 </Card>
-                </div>
+              </div>
 
             )}
           </Droppable>
-          
+
         </div>
       )}
     </Draggable>
-        
+
   )
 }
 
