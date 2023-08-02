@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
@@ -11,12 +10,7 @@ import TrelloList from './components/TrelloList';
 import { useTodoContext } from './context/TodoContext';
 
 export default function App() {
-  const { todos, setTodos, handleAddTodoList, onDragEnd } = useTodoContext();
-  const [isOpenModalAddCard, setIsOpenModalAddCard] = useState(false);
-
-  function handleOpenModalAddCard() {
-    setIsOpenModalAddCard(true);
-  }
+  const { todos, setTodos, onDragEnd, setModalAddCard } = useTodoContext();
 
   function handleAddList() {
     // Prompt the user to enter the title of the new list
@@ -43,11 +37,6 @@ export default function App() {
         },
       }));
     }
-  }
-
-
-  function handleCloseModalAddCard() {
-    setIsOpenModalAddCard(false);
   }
 
   return (
@@ -88,7 +77,7 @@ export default function App() {
                           title={listItem.title}
                           cards={cards}
                           listId={listItem.id}
-                          handleOpenModalAddCard={handleOpenModalAddCard}
+                          setModalAddCard={setModalAddCard}
                         />
                       )
                     })}
@@ -107,11 +96,7 @@ export default function App() {
         </div>
       </main>
 
-      <ModalAddCard
-        isOpenModalAddCard={isOpenModalAddCard}
-        handleAddTodo={handleAddTodoList}
-        handleCloseModalAddCard={handleCloseModalAddCard}
-      />
+      <ModalAddCard />
     </>
   );
 }

@@ -6,7 +6,16 @@ import { Draggable, Droppable } from 'react-beautiful-dnd';
 // compoents
 import CardItem from './CardItem';
 
-function TrelloList({ index, listId, title, cards, handleOpenModalAddCard }) {
+function TrelloList({ index, listId, title, cards, setModalAddCard }) {
+
+  function _handleOpenModalAddCard() {
+    setModalAddCard(prevState => ({
+      ...prevState,
+      listId,
+      isOpen: true
+    }))
+  }
+
   return (
     <Draggable draggableId={String(listId)} index={index}>
       {(provided) => (
@@ -30,7 +39,7 @@ function TrelloList({ index, listId, title, cards, handleOpenModalAddCard }) {
                     <>
                       <div style={{ display: 'flex', gap: '10px' }}>
                         <Tooltip placement="top" title="Add a card">
-                          <Button shape="circle" icon={<PlusOutlined />} onClick={handleOpenModalAddCard} />
+                          <Button shape="circle" icon={<PlusOutlined />} onClick={_handleOpenModalAddCard} />
                         </Tooltip>
                         <Tooltip placement="top" title="Delete this list">
                           <Button shape="circle" icon={<DeleteOutlined />} />

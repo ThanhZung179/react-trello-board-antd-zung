@@ -1,9 +1,15 @@
+/* eslint-disable react/prop-types */
 import { Modal, Form, Input, Select, Space, Avatar } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 
 const { TextArea } = Input;
 
-function ModalAddCard({ isOpenModalAddCard, handleCloseModalAddCard, handleAddTodo }) {
+// context
+import { useTodoContext } from '../context/TodoContext'
+
+function ModalAddCard() {
+
+  const {modalAddCard, setModalAddCard, handleAddTodoList } = useTodoContext();
 
   const [form] = useForm();
 
@@ -13,8 +19,8 @@ function ModalAddCard({ isOpenModalAddCard, handleCloseModalAddCard, handleAddTo
 
   const onFinish = (values) => {
     form.resetFields();
-    handleAddTodo(values);
-    handleCloseModalAddCard();
+    handleAddTodoList(values);
+    _handleClose();
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -25,9 +31,17 @@ function ModalAddCard({ isOpenModalAddCard, handleCloseModalAddCard, handleAddTo
     console.log(`selected ${value}`);
   };
 
+  function _handleClose() {
+    setModalAddCard(prevState => ({
+      ...prevState,
+      listId: null,
+      isOpen: false
+    }))
+  }
+
   return (
     <>
-      <Modal title="Add Card" open={isOpenModalAddCard} onOk={form.submit} onCancel={handleCloseModalAddCard}>
+      <Modal title="Add Card" open={modalAddCard.isOpen} onOk={form.submit} onCancel={_handleClose}>
         <Form
           name="basic"
           form={form}
@@ -35,7 +49,10 @@ function ModalAddCard({ isOpenModalAddCard, handleCloseModalAddCard, handleAddTo
             maxWidth: 600,
           }}
           initialValues={{
-            remember: true,
+            title: '',
+            description: '',
+            member: undefined,
+            status: 'new'
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
@@ -135,13 +152,12 @@ function ModalAddCard({ isOpenModalAddCard, handleCloseModalAddCard, handleAddTo
             name="status"
             label="Status" >
             <Select
-              defaultValue="New"
               style={{ width: 120 }}
               onChange={handleStatusChange}
               options={[
-                { value: 'New', label: 'New' },
-                { value: 'In process', label: 'In process' },
-                { value: 'Done', label: 'Done' },
+                { value: 'new', label: 'New' },
+                { value: 'inprocess', label: 'In process' },
+                { value: 'done', label: 'Done' },
               ]}
             />
           </Form.Item>

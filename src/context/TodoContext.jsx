@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 
 // mocks
@@ -7,18 +8,40 @@ const TodoContext = React.createContext();
 
 export const TodoProvider = ({ children }) => {
   const [todos, setTodos] = React.useState(data);
+  const [modalAddCard, setModalAddCard] = React.useState({
+    listId: null,
+    values: null,
+    isOpen: false,
+  })
 
   function handleAddTodoList(values) {
-    const todoItem = {
-      id: Math.random(),
+    const cardItem = {
+      id: `card-${Date.now()}`,
       title: values.title,
       description: values.description,
       member: values.member,
       status: values.status,
     };
-    setTodos([...todos, todoItem]);
-  }
+    const listId = modalAddCard.listId;
 
+    // add card.id into list
+    // add card item into cards
+    setTodos(prevState => ({
+      ...prevState,
+      lists: {
+        ...prevState.lists,
+        [listId]: {
+          ...prevState.lists[listId],
+          cards: [...prevState.lists[listId].cards, cardItem.id]
+        }
+      },
+      cards: {
+        ...prevState.cards,
+        [cardItem.id]: cardItem
+      }
+    }))
+  }
+  
   const onDragEnd = React.useCallback((result) => {
     const { destination, source, draggableId, type } = result;
 
@@ -99,10 +122,12 @@ export const TodoProvider = ({ children }) => {
         // states
         todos,
         setTodos,
+        modalAddCard,
 
         // actions
         handleAddTodoList,
-        onDragEnd
+        onDragEnd,
+        setModalAddCard
       }}
     >
       {children}
