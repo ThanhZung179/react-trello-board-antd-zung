@@ -51,7 +51,9 @@ export default function App() {
     delete updatedTodos.lists[listIdToDelete];
 
     // Update the state with the modified data
-    setTodos(updatedTodos); }
+    setTodos(updatedTodos);
+  }
+
 
 
   return (
@@ -113,6 +115,7 @@ export default function App() {
       </main>
 
       <ModalAddCard />
+
     </>
   );
 }

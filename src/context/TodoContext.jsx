@@ -14,6 +14,25 @@ export const TodoProvider = ({ children }) => {
     isOpen: false,
   })
 
+  function handleDeleteCard(listId, cardId) {
+    setTodos((prevState) => {
+      const updatedLists = { ...prevState.lists };
+      const updatedCards = { ...prevState.cards };
+
+      // Remove card from the list's cards array
+      updatedLists[listId].cards = updatedLists[listId].cards.filter((id) => id !== cardId);
+
+      // Delete the card
+      delete updatedCards[cardId];
+
+      return {
+        ...prevState,
+        lists: updatedLists,
+        cards: updatedCards,
+      };
+    });
+  }
+
   function handleAddTodoList(values) {
     const cardItem = {
       id: `card-${Date.now()}`,
@@ -127,7 +146,8 @@ export const TodoProvider = ({ children }) => {
         // actions
         handleAddTodoList,
         onDragEnd,
-        setModalAddCard
+        setModalAddCard,
+        handleDeleteCard
       }}
     >
       {children}

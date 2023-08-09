@@ -4,10 +4,19 @@ import PropTypes from 'prop-types'; // ES6
 import { EditOutlined, DeleteOutlined, FileTextOutlined, AntDesignOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Card, Tooltip } from 'antd';
 import { Draggable } from 'react-beautiful-dnd';
+import { useTodoContext } from '../context/TodoContext';
+import ModalCardDetail from './ModalCardDetail';
 
 const { Meta } = Card;
 
-function CardItem({ card, index }) {
+function CardItem({ card, index, listId }) {
+  const { handleDeleteCard } = useTodoContext();
+  const [detailModalVisible, setDetailModalVisible] = useState(false);
+  const _handleDeleteCard = () => {
+    handleDeleteCard(listId, card.id); // Call handleDeleteCard with listId and card.id
+  };
+
+
   return (
     <>
       <Draggable draggableId={String(card.id)} index={index}>
@@ -35,7 +44,7 @@ function CardItem({ card, index }) {
                 </Tooltip>,
 
                 <Tooltip placement="top" title='Delete' key='delete'>
-                  <DeleteOutlined key="delete" />
+                  <DeleteOutlined key="delete" onClick={_handleDeleteCard} />
                 </Tooltip>,
               ]}
             >
