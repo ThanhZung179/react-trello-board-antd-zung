@@ -6,7 +6,7 @@ import { Draggable, Droppable } from 'react-beautiful-dnd';
 // compoents
 import CardItem from './CardItem';
 
-function TrelloList({ index, listId, title, cards, setModalAddCard }) {
+function TrelloList({ index, listId, title, cards, setModalAddCard, handleDeleteList }) {
 
   function _handleOpenModalAddCard() {
     setModalAddCard(prevState => ({
@@ -14,6 +14,10 @@ function TrelloList({ index, listId, title, cards, setModalAddCard }) {
       listId,
       isOpen: true
     }))
+  }
+
+  function _handleDeleteList() {
+    handleDeleteList(listId);
   }
 
   return (
@@ -27,12 +31,12 @@ function TrelloList({ index, listId, title, cards, setModalAddCard }) {
         >
           <Droppable droppableId={String(listId)} type="CARD">
             {(provided) => (
-                <div
+              <div
                 ref={provided.innerRef}
                 // style={{ backgroundColor: snapshot.isDraggingOver ? 'blue' : 'grey' }}
                 {...provided.droppableProps}
               >
-               <Card
+                <Card
                   className="cardList"
                   title={title}
                   extra={
@@ -42,7 +46,7 @@ function TrelloList({ index, listId, title, cards, setModalAddCard }) {
                           <Button shape="circle" icon={<PlusOutlined />} onClick={_handleOpenModalAddCard} />
                         </Tooltip>
                         <Tooltip placement="top" title="Delete this list">
-                          <Button shape="circle" icon={<DeleteOutlined />} />
+                          <Button shape="circle" icon={<DeleteOutlined />} onClick={_handleDeleteList} />
                         </Tooltip>
                       </div>
                     </>
@@ -51,28 +55,28 @@ function TrelloList({ index, listId, title, cards, setModalAddCard }) {
                     width: 300,
                   }}
                 >
-                    {cards.map((card, cardIndex) => {
-                      return (
-                        <CardItem 
-                          key={card.id}
-                          card={card}
-                          index={cardIndex}
-                          listId={listId}
-                        />
-                      )
-                    })}
+                  {cards.map((card, cardIndex) => {
+                    return (
+                      <CardItem
+                        key={card.id}
+                        card={card}
+                        index={cardIndex}
+                        listId={listId}
+                      />
+                    )
+                  })}
 
-                    {provided.placeholder}
+                  {provided.placeholder}
                 </Card>
-                </div>
+              </div>
 
             )}
           </Droppable>
-          
+
         </div>
       )}
     </Draggable>
-        
+
   )
 }
 

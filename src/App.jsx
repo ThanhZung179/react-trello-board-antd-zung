@@ -39,6 +39,21 @@ export default function App() {
     }
   }
 
+  //DELETE LIST 
+  function handleDeleteList(listIdToDelete) {
+    // Create a copy of the state
+    const updatedTodos = { ...todos };
+
+    // Remove the list from the columns array
+    updatedTodos.columns = updatedTodos.columns.filter((id) => id !== listIdToDelete);
+
+    // Delete the list from the lists object
+    delete updatedTodos.lists[listIdToDelete];
+
+    // Update the state with the modified data
+    setTodos(updatedTodos); }
+
+
   return (
     <>
       <div className="header_container">
@@ -78,6 +93,7 @@ export default function App() {
                           cards={cards}
                           listId={listItem.id}
                           setModalAddCard={setModalAddCard}
+                          handleDeleteList={handleDeleteList}
                         />
                       )
                     })}
