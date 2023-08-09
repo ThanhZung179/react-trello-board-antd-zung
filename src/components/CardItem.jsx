@@ -6,16 +6,26 @@ import { Avatar, Card, Tooltip } from 'antd';
 import { Draggable } from 'react-beautiful-dnd';
 import { useTodoContext } from '../context/TodoContext';
 import ModalCardDetail from './ModalCardDetail';
+import { useState } from 'react';
 
 const { Meta } = Card;
 
 function CardItem({ card, index, listId }) {
   const { handleDeleteCard } = useTodoContext();
+
   const [detailModalVisible, setDetailModalVisible] = useState(false);
+
   const _handleDeleteCard = () => {
     handleDeleteCard(listId, card.id); // Call handleDeleteCard with listId and card.id
   };
 
+  const openDetailModal = () => {
+    setDetailModalVisible(true);
+  };
+
+  const closeDetailModal = () => {
+    setDetailModalVisible(false);
+  };
 
   return (
     <>
@@ -36,7 +46,7 @@ function CardItem({ card, index, listId }) {
               }
               actions={[
                 <Tooltip placement="top" title='View' key='view'>
-                  <FileTextOutlined key="view" />
+                  <FileTextOutlined key="view" onClick={openDetailModal} />
                 </Tooltip>,
 
                 <Tooltip placement="top" title='Edit' key='edit'>
@@ -88,6 +98,11 @@ function CardItem({ card, index, listId }) {
                 </Avatar.Group>
               </div>
             </Card>
+            <ModalCardDetail
+              cardId={card.id}
+              visible={detailModalVisible}
+              onClose={closeDetailModal}
+            />
           </div>
         )}
       </Draggable>
