@@ -33,7 +33,6 @@ function TrelloList({ index, listId, title, cards, setModalAddCard, handleDelete
             {(provided) => (
               <div
                 ref={provided.innerRef}
-                // style={{ backgroundColor: snapshot.isDraggingOver ? 'blue' : 'grey' }}
                 {...provided.droppableProps}
               >
                 <Card

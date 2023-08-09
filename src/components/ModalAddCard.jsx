@@ -9,7 +9,7 @@ import { useTodoContext } from '../context/TodoContext'
 
 function ModalAddCard() {
 
-  const {modalAddCard, setModalAddCard, handleAddTodoList } = useTodoContext();
+  const { modalAddCard, setModalAddCard, handleAddTodoList } = useTodoContext();
 
   const [form] = useForm();
 
@@ -57,6 +57,8 @@ function ModalAddCard() {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
+          labelCol={{ span: 6 }} 
+          wrapperCol={{ span: 18 }}
         >
           <Form.Item
             label="Title"
@@ -94,57 +96,57 @@ function ModalAddCard() {
               },
             ]}
           >
-              <Select
-                mode="multiple"
-                size="middle"
-                placeholder="Please select"
-                onChange={handleMemberSelectedChange}
-                style={{
-                  width: '100%',
-                }}
-                options={[
-                  {
-                    value: 'zung',
-                    label: (
-                      <>
-                        <Space direction="vertical" size={16}>
-                          <Space wrap size={16}>
-                            <Avatar src="https://img.freepik.com/free-photo/stylish-confident-businesswoman-smiling_176420-19466.jpg?w=2000" />
-                          </Space>
+            <Select
+              mode="multiple"
+              size="middle"
+              placeholder="Please select"
+              onChange={handleMemberSelectedChange}
+              style={{
+                width: '100%',
+              }}
+              options={[
+                {
+                  value: 'zung',
+                  label: (
+                    <>
+                      <Space direction="vertical" size={16}>
+                        <Space wrap size={16}>
+                          <Avatar src="https://img.freepik.com/free-photo/stylish-confident-businesswoman-smiling_176420-19466.jpg?w=2000" />
                         </Space>
-                        <span>Nguyen Thanh Zung</span>
-                      </>
-                    ),
-                  },
-                  {
-                    value: 'lucy',
-                    label: (
-                      <>
-                        <Space direction="vertical" size={16}>
-                          <Space wrap size={16}>
-                            <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxG7Yll-Mqdj3Ce_9XfWDQ3qqvNTpEX82IeQ&usqp=CAU" />
-                          </Space>
+                      </Space>
+                      <span>Nguyen Thanh Zung</span>
+                    </>
+                  ),
+                },
+                {
+                  value: 'lucy',
+                  label: (
+                    <>
+                      <Space direction="vertical" size={16}>
+                        <Space wrap size={16}>
+                          <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxG7Yll-Mqdj3Ce_9XfWDQ3qqvNTpEX82IeQ&usqp=CAU" />
                         </Space>
-                        <span>Lucy</span>
-                      </>
-                    ),
-                  },
-                  {
-                    value: 'tom',
-                    label: (
-                      <>
-                        <Space direction="vertical" size={16}>
-                          <Space wrap size={16}>
-                            <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvmI2RMfPSRXyXnYQYtF3tdjvwF4x2HnZH29Q-MjH0i3Ly-UAahLK3rq_mIEwcomCFNxk&usqp=CAU" />
-                          </Space>
+                      </Space>
+                      <span>Lucy</span>
+                    </>
+                  ),
+                },
+                {
+                  value: 'tom',
+                  label: (
+                    <>
+                      <Space direction="vertical" size={16}>
+                        <Space wrap size={16}>
+                          <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvmI2RMfPSRXyXnYQYtF3tdjvwF4x2HnZH29Q-MjH0i3Ly-UAahLK3rq_mIEwcomCFNxk&usqp=CAU" />
                         </Space>
-                        <span>Tom</span>
-                      </>
-                    ),
-                  },
-                ]}
-              />
-            
+                      </Space>
+                      <span>Tom</span>
+                    </>
+                  ),
+                },
+              ]}
+            />
+
           </Form.Item>
 
 

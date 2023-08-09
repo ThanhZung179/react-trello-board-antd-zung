@@ -106,7 +106,6 @@ export const TodoProvider = ({ children }) => {
         },
       }));
     } else {
-      // If the card is dropped in a different list
       const startCardOrder = Array.from(startList.cards);
       startCardOrder.splice(source.index, 1);
 

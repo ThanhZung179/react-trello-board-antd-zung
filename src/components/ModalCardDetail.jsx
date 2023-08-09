@@ -4,6 +4,7 @@ import { useTodoContext } from '../context/TodoContext';
 
 const { Text } = Typography;
 
+// eslint-disable-next-line react/prop-types
 function ModalCardDetail({ cardId, visible, onClose }) {
   const { todos } = useTodoContext();
   const card = todos.cards[cardId];
@@ -11,7 +12,7 @@ function ModalCardDetail({ cardId, visible, onClose }) {
   return (
     <Modal
       title={card.title}
-      visible={visible}
+      open={visible}
       onCancel={onClose}
       footer={null}
     >

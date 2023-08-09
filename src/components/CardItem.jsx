@@ -7,6 +7,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import { useTodoContext } from '../context/TodoContext';
 import ModalCardDetail from './ModalCardDetail';
 import { useState } from 'react';
+import ModalEditCard from './ModalEditCard';
 
 const { Meta } = Card;
 
@@ -15,8 +16,18 @@ function CardItem({ card, index, listId }) {
 
   const [detailModalVisible, setDetailModalVisible] = useState(false);
 
+  const [editModalVisible, setEditModalVisible] = useState(false);
+
+  const openEditModal = () => {
+    setEditModalVisible(true);
+  };
+
+  const closeEditModal = () => {
+    setEditModalVisible(false);
+  };
+
   const _handleDeleteCard = () => {
-    handleDeleteCard(listId, card.id); // Call handleDeleteCard with listId and card.id
+    handleDeleteCard(listId, card.id);
   };
 
   const openDetailModal = () => {
@@ -50,7 +61,7 @@ function CardItem({ card, index, listId }) {
                 </Tooltip>,
 
                 <Tooltip placement="top" title='Edit' key='edit'>
-                  <EditOutlined key="edit" />
+                  <EditOutlined key="edit" onClick={openEditModal} />
                 </Tooltip>,
 
                 <Tooltip placement="top" title='Delete' key='delete'>
@@ -102,6 +113,11 @@ function CardItem({ card, index, listId }) {
               cardId={card.id}
               visible={detailModalVisible}
               onClose={closeDetailModal}
+            />
+            <ModalEditCard
+              card={card}
+              visible={editModalVisible}
+              onClose={closeEditModal}
             />
           </div>
         )}

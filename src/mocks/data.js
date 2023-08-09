@@ -1,4 +1,3 @@
-// hash map (object)
 export const data = {
   columns: ['list-1', 'list-2'],
   lists: {

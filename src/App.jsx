@@ -13,27 +13,27 @@ export default function App() {
   const { todos, setTodos, onDragEnd, setModalAddCard } = useTodoContext();
 
   function handleAddList() {
-    // Prompt the user to enter the title of the new list
+
     const newListTitle = window.prompt("Enter the title of the new list:");
 
     if (newListTitle && newListTitle.trim() !== "") {
-      // Generate a unique ID for the new list
+
       const newListId = `list-${Math.random().toString(36).substr(2, 9)}`;
 
-      // Create a new list object
+
       const newList = {
         id: newListId,
         title: newListTitle,
-        cards: [], // Initialize the new list with an empty array of cards
+        cards: [],
       };
 
-      // Update the todos state with the new list
+
       setTodos((prevState) => ({
         ...prevState,
-        columns: [...prevState.columns, newListId], // Add the new list ID to the columns array
+        columns: [...prevState.columns, newListId],
         lists: {
           ...prevState.lists,
-          [newListId]: newList, // Add the new list to the lists object with its ID as the key
+          [newListId]: newList,
         },
       }));
     }
@@ -41,16 +41,10 @@ export default function App() {
 
   //DELETE LIST 
   function handleDeleteList(listIdToDelete) {
-    // Create a copy of the state
+
     const updatedTodos = { ...todos };
-
-    // Remove the list from the columns array
     updatedTodos.columns = updatedTodos.columns.filter((id) => id !== listIdToDelete);
-
-    // Delete the list from the lists object
     delete updatedTodos.lists[listIdToDelete];
-
-    // Update the state with the modified data
     setTodos(updatedTodos);
   }
 
@@ -77,7 +71,6 @@ export default function App() {
                 <div
                   ref={provided.innerRef}
                   style={{
-                    // backgroundColor: snapshot.isDraggingOver ? 'blue' : 'grey',
                     display: 'flex'
                   }}
                   {...provided.droppableProps}
@@ -105,7 +98,6 @@ export default function App() {
               )}
             </Droppable>
 
-            {/* <TrelloList /> */}
           </DragDropContext>
 
 
