@@ -57,7 +57,7 @@ function ModalAddCard() {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
-          labelCol={{ span: 6 }} 
+          labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
         >
           <Form.Item
@@ -106,7 +106,7 @@ function ModalAddCard() {
               }}
               options={[
                 {
-                  value: 'zung',
+                  value: 'Zung',
                   label: (
                     <>
                       <Space direction="vertical" size={16}>
@@ -119,7 +119,7 @@ function ModalAddCard() {
                   ),
                 },
                 {
-                  value: 'lucy',
+                  value: 'Lucy',
                   label: (
                     <>
                       <Space direction="vertical" size={16}>
@@ -132,7 +132,7 @@ function ModalAddCard() {
                   ),
                 },
                 {
-                  value: 'tom',
+                  value: 'Tom',
                   label: (
                     <>
                       <Space direction="vertical" size={16}>
@@ -157,9 +157,9 @@ function ModalAddCard() {
               style={{ width: 120 }}
               onChange={handleStatusChange}
               options={[
-                { value: 'new', label: 'New' },
-                { value: 'inprocess', label: 'In process' },
-                { value: 'done', label: 'Done' },
+                { value: 'New', label: 'New' },
+                { value: 'In-process', label: 'In process' },
+                { value: 'Done', label: 'Done' },
               ]}
             />
           </Form.Item>

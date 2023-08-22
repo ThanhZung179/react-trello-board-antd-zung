@@ -8,6 +8,7 @@ import TrelloList from './components/TrelloList';
 
 // context
 import { useTodoContext } from './context/TodoContext';
+import { data } from './mocks/data';
 
 export default function App() {
   const { todos, setTodos, onDragEnd, setModalAddCard } = useTodoContext();
@@ -48,7 +49,7 @@ export default function App() {
     setTodos(updatedTodos);
   }
 
-
+console.log(todos)
 
   return (
     <>
